@@ -10,12 +10,16 @@
 	\item \textbf{Platform Engineering:} building internal self-service platforms (tooling, pipelines, infra) so dev teams ship faster; CI/CD is a key part.
 \end{itemize}
 \subsection{DevOps Cycle}
+\includegraphics[width=\linewidth]{devops.png} \\
+\textbf{Arcs:} \textcolor{ciGreen}{\textbf{Continuous Integration}}, \textcolor{cdBlue}{\textbf{Continuous Deployment}}, \textcolor{deliveryPurple}{\textbf{Continuous Delivery}}, \textcolor{feedbackOrange}{\textbf{Continuous Feedback}} \\
 \textbf{Plan} (add Objectives and Requirements to Backlog), \textbf{Code} (add Code to Repo), \textbf{Build} (Pipelines runs on push, builds and unit tests software), \textbf{Test} (Build is deployed to staging environment, tested using E2E, load, accessibility tests), \textbf{Release} (snapshot of code is versioned, changes are documented), \textbf{Deploy} (release is installed onto production environment), \textbf{Operate} (application should run smoothly, issues are troubleshooted and documented, infrastructure is scaled), \textbf{Monitor} (Application Data is gathered and used for planning) \\
 \textbf{Difference Between Continuous Delivery \& Continuous Deployment:} Deployment automatically pushes from staging to production, in Delivery this is manual. \\
-\textbf{CD\&D Deployment Strategies:} \\
-\textbf{Rolling Deployment:} Update infrastructure gradually, minimal downtime \\
-\textbf{Blue-Green:} Two environments: Old and new versions respectively \\
-\textbf{Canary:} Small user group tests first \\
-\textbf{Feature Flag:} Deploy but activate later, can be toggled \\
-\textbf{Dark Launching:} Rolling out a feature invisible for users, test its performance in the background
+\textbf{CD\&D Deployment Strategies:}
+\begin{itemize}
+	\item \textbf{Rolling Deployment:} Update infrastructure gradually, minimal downtime
+	\item \textbf{Blue-Green:} Two environments: Old and new versions respectively
+	\item \textbf{Canary:} Small user group tests first
+	\item \textbf{Feature Flag:} Deploy but activate later, can be toggled
+	\item \textbf{Dark Launching:} Rolling out a feature invisible for users, test its performance in the background
+\end{itemize}
 % TODO: maybe add pipeline commands (see w1)
