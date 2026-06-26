@@ -1,22 +1,27 @@
 \renewcommand{\chapcolor}{chGitlab}
 \section{GitLab Pipelines}
+
+\begin{lstlisting}[language=yaml]
+build-image:
+  stage: release
+  image: docker:28
+  services:
+    - name: docker:28-dind   # Docker-in-Docker
+      alias: docker
+  variables:
+    IMG: $CI_REGISTRY_IMAGE:latest
+  before_script:
+    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
+  script:
+    - docker build -t $IMG -f Dockerfile.prod .
+    - docker push $IMG
+  rules:
+    - changes: [Dockerfile.prod]
+\end{lstlisting}
+
 \subsection{Core Concepts \& DSL Mapping}
 Pipeline = automated steps $\rightarrow$ faster, safer, reliable. Traceable logs, parallel jobs, consistent envs kill "works on my machine".
-\begin{center}\footnotesize
-\begin{tabular}{@{}lll@{}}
-\textbf{Concept} & \textbf{Keyword} & \textbf{Example} \\
-\hline
-Stages & \texttt{stages:} & \texttt{[build, test, deploy]} \\
-Jobs & top-level key & \texttt{<name>: \{stage:, script:\}} \\
-Steps & \texttt{script:} & \texttt{["cmd1","cmd2"]} \\
-Rules & \texttt{rules}/\texttt{only}/\texttt{except} & \texttt{[\{if:..., when:...\}]} \\
-Services & \texttt{services:} & \texttt{[\{name: postgres:15, alias: db\}]} \\
-Runners & \texttt{tags:} (UI config) & \texttt{["my-runner"]} \\
-Caches & \texttt{cache:} & \texttt{\{key, paths\}} (deps, speedup) \\
-Artifacts & \texttt{artifacts:} & \texttt{\{paths, expire\_in\}} (persist) \\
-Registries & \texttt{script:} push & \texttt{docker login/build/push} \\
-Variables & \texttt{variables:} & \texttt{\{FOO: bar\}} (mask/protect UI) \\
-\end{tabular}\end{center}
+
 \textbf{5-stage flow:} commit/MR/tag $\rightarrow$ \textit{build} (compile, image, package) $\rightarrow$ \textit{test} (unit/integration/security/perf) $\rightarrow$ \textit{release} (publish to registry) $\rightarrow$ \textit{deploy} (target env) $\rightarrow$ \textit{post-deploy} (smoke, health, rollback).
 
 \subsection{Jobs, Stages \& Rules}
