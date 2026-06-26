@@ -30,10 +30,10 @@ helm install x <chart> --version 1.2.3
 \subsection{Chart Structure}
 \texttt{helm create <name>} scaffolds a chart:
 \begin{itemize}
-	\item \texttt{Chart.yaml} -- metadata (name, version, dependencies)
-	\item \texttt{values.yaml} -- default values (overridable via \texttt{-f}/\texttt{--set})
-	\item \texttt{templates/} -- templated K8 manifests (Go templating)
-	\item \texttt{charts/} -- bundled subcharts (dependencies)
+    \item \texttt{Chart.yaml} -- metadata (name, version, dependencies)
+    \item \texttt{values.yaml} -- default values (overridable via \texttt{-f}/\texttt{--set})
+    \item \texttt{templates/} -- templated K8 manifests (Go templating)
+    \item \texttt{charts/} -- bundled subcharts (dependencies)
 \end{itemize}
 \textbf{Dependencies} (other charts, e.g. a DB) are declared in \texttt{Chart.yaml} and pulled with \texttt{helm dependency update}.
 

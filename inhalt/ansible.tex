@@ -16,7 +16,8 @@ ansible_user=deploy
 \begin{lstlisting}[language=yaml]
 - name: Example Playbook
   hosts: web
-  become: true
+  become: true             # run tasks as root (sudo)
+  gather_facts: false      # skip the implicit setup/fact gathering (faster)
   vars:
     packages:
       - nginx
