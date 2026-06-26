@@ -1,7 +1,10 @@
+% !TEX TS-program = lualatex
+% NOTE: compile with lualatex (fontspec loads the system-installed Minuscule font)
 \documentclass[9pt,landscape,a4paper]{extarticle}
-\usepackage[utf8]{inputenc}
 \usepackage[ngerman]{babel}
-\usepackage[T1]{fontenc}
+\usepackage{fontspec}
+\setmainfont{Verdana}[Scale=0.95]
+\setsansfont{Verdana}[Scale=0.95]
 
 \input{defs.tex}
 \begin{document}
