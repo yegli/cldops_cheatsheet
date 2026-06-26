@@ -1,9 +1,9 @@
 \renewcommand{\chapcolor}{chMesh}
 \section{Service Mesh}
 \subsection{Microservices}
-Small independent services, one business function, communicate via lightweight APIs. Cloud-native, opposite of Monolith. Microservices == distributed computing. \\
+Small independent services, one business function, communicate via lightweight APIs. Microservices == distributed computing. \\
 \textbf{Pros:} independent deploy, flexibility, scalability, fault isolation, team autonomy. \\
-\textbf{Cons:} operational complexity, distributed-system challenges, data consistency, higher resource use, testing overhead. \\
+\textbf{Cons:} operational complexity, distributed-system challenges, data consistency, higher resource use. \\
 \textbf{Challenges:} \textit{Communication} - services must know endpoints, new service ripples changes. \textit{Security} - in-cluster traffic unsecured, any pod $\to$ any pod. \textit{Monitoring} - spread out, non-business logic added per app.
 
 \subsection{Distributed Computing Fallacies}

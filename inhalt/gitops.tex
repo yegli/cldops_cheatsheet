@@ -1,27 +1,15 @@
 \renewcommand{\chapcolor}{chGitops}
 \section{GitOps}
-Git = single source of truth for infra/app config; in-cluster agent reconciles live $\rightarrow$ desired state. Side effects: docs \& reproducibility. \\
+Git = single source of truth for infra/app config; in-cluster agent reconciles live $\rightarrow$ desired state. \\
 \textbf{4 Principles (OpenGitOps):} \textit{declarative} state; \textit{versioned \& immutable} (history = audit, revert = rollback); \textit{pulled} by agents; \textit{continuously reconciled} (detect + self-heal drift).
 
 \subsection{Push vs.\ Pull}
 \textbf{Push (classic CI/CD):} pipeline holds creds, runs \texttt{kubectl apply}. + fast, well-known; - creds outside cluster, inbound firewall, no drift detection, per-env pipeline edits. \\
 \textbf{Pull (GitOps):} in-cluster agent watches Git, syncs. + no inbound access, drift correction, multi-cluster scale; - agent per cluster, polling latency. \textit{Trust:} CI server $\rightarrow$ agent + Git. \textit{Access dir:} push = in; pull = out.
 
-\subsection{Drift \& Reconciliation}
-\textit{Drift}: live diverges from Git (e.g.\ \texttt{kubectl edit}). Loop: diff Git vs.\ live $\rightarrow$ report or sync/prune/self-heal. \textit{Rollback} = \texttt{git revert}.
-
 \subsection{Argo CD vs.\ Flux CD}
-\textbf{Argo CD} (Intuit, CNCF graduated): Web UI + CLI, multi-cluster from one UI, SSO/RBAC, sync waves, pre/post hooks, health checks. CRDs: \texttt{Application} (repo+path $\rightarrow$ cluster/ns + syncPolicy), \texttt{ApplicationSet} (templated per branch/cluster/env), \texttt{AppProject} (restrict what/where/who). Pattern: \textit{App-of-Apps} (root App syncs children). \\
-\textbf{Flux CD} (Weaveworks, CNCF graduated): CLI-first, no UI, modular \textit{GitOps Toolkit} (source, kustomize, helm, notification, image). Sources: \texttt{GitRepository}, \texttt{OCIRepository}, \texttt{Bucket} (S3), \texttt{HelmRepository}. Appliers: \texttt{Kustomization}, \texttt{HelmRelease}. Supports Gitless GitOps (OCI/S3) + image automation. \textit{Naming clash:} \texttt{kustomize.config.k8s.io} (feature) vs.\ \texttt{kustomize.toolkit.fluxcd.io} (Flux CRD).
-
-\subsection{Argo CD in Practice}
-\begin{lstlisting}[language=sh]
-kubectl create ns argocd && kubectl apply -n argocd -f .../install.yaml
-kubectl port-forward -n argocd svc/argocd-server 8080:443
-kubectl -n argocd get secret argocd-initial-admin-secret \
-  -o jsonpath="{.data.password}" | base64 -d   # user: admin
-\end{lstlisting}
-Local dest: \texttt{https://kubernetes.default.svc}. \textit{Gotcha:} \texttt{replicas} in Git + HPA $\rightarrow$ fight $\Rightarrow$ omit \texttt{replicas}.
+\textbf{Argo CD}: Web UI + CLI, multi-cluster from one UI, SSO/RBAC, sync waves, pre/post hooks, health checks. CRDs: \texttt{Application} (repo+path $\rightarrow$ cluster/ns + syncPolicy), \texttt{ApplicationSet} (templated per branch/cluster/env), \texttt{AppProject} (restrict what/where/who). Pattern: \textit{App-of-Apps} (root App syncs children). \\
+\textbf{Flux CD}: CLI-first, no UI, modular \textit{GitOps Toolkit} (source, kustomize, helm, notification, image). Supports Gitless GitOps (OCI/S3) + image automation. \textit{Naming clash:} \texttt{kustomize.config.k8s.io} (feature) vs.\ \texttt{kustomize.toolkit.fluxcd.io} (Flux CRD).
 
 \subsection{Secrets \& Best Practices}
 \textbf{Encrypted in Git:} Sealed Secrets (controller decrypts), SOPS. \textbf{Referenced:} External Secrets, Secrets Store CSI driver (mounts Vault/KMS as volume). \\
